@@ -1,0 +1,38 @@
+<div mat-dialog-content style="text-align: center; margin-top: 20px">
+  <form [formGroup]="productForm" class="example-form">
+    <h1 mat-dialog-title>Add Product</h1>
+    <br />
+    <mat-form-field class="example-full-width">
+      <mat-label>Product Name</mat-label>
+      <input type="text" matInput formControlName="productName"/>
+    </mat-form-field>
+    <br />
+    <mat-form-field class="example-full-width">
+      <mat-label> Product Available </mat-label>
+      <input matInput type="number" formControlName="productAvailable" />
+    </mat-form-field>
+    <br />
+    <mat-form-field class="example-full-width">
+      <mat-label> Product Cost Price </mat-label>
+      <input matInput type="number" formControlName="productcostPrice" />
+    </mat-form-field>
+    <br />
+    <mat-form-field class="example-full-width">
+      <mat-label> Product Selling Price </mat-label>
+      <input matInput type="number" formControlName="productSellingPrice" />
+    </mat-form-field>
+    <br />
+    <button
+      mat-raised-button
+      color="accent"
+      type="submit"
+      cdkFocusInitial
+      mat-dialog-close
+      (click)="this.addProduct()"
+      style="margin-bottom: 2px"
+      [disabled]="!productForm.valid"
+    >
+      Submit
+    </button>
+  </form>
+</div>

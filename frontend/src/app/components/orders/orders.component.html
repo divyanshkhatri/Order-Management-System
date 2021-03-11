@@ -1,0 +1,70 @@
+<div style="align-content: center; margin: 4vh auto; width: 58%;">
+  <h1 style="text-align: center; font-family: 'lato'; font-size: 36px; margin-bottom: 5vh;">
+    Order Details
+  </h1>
+  <div class="mat-elevation-z8">
+    <mat-table
+      matSort
+      matSortActive="id"
+      fxLayout="column"
+      matSortDirection="desc"
+      style="border-collapse: collapse; border-radius: 30px"
+      [dataSource]="dataSource"
+    >
+      <ng-container matColumnDef="orderId">
+        <mat-header-cell fxFlex="20" mat-sort-header *matHeaderCellDef>
+          Order ID
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element" fxFlex="20">
+          {{ element.orderId }}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="orderStatus">
+        <mat-header-cell fxFlex = "25" mat-sort-header *matHeaderCellDef>
+          Current Order Status
+        </mat-header-cell>
+        <mat-cell fxFlex = "25" *matCellDef="let element" >
+          <mat-select  matNativeControl placeholder= {{element.orderStatus}} (selectionChange) = "update(element)"  [(value)] = "element.orderStatus"  >
+            <mat-option [disabled] = "element.orderStatus == 'Confirmed' || element.orderStatus == 'NotConfirmed' ||
+            element.orderStatus == 'Shipped' || element.orderStatus == 'Completed' || element.orderStatus == 'Cancelled' " value = "NotConfirmed" >NotConfirmed</mat-option>
+            <mat-option [disabled] = "element.orderStatus != 'NotConfirmed' " value = "Confirmed" >Confirmed</mat-option>
+            <mat-option [disabled] = "element.orderStatus != 'Confirmed' " value = "Shipped">Shipped</mat-option>
+            <mat-option [disabled] = "element.orderStatus != 'Shipped' " value = "Completed">Completed</mat-option>
+            <mat-option [disabled] = "element.orderStatus != 'Confirmed' "value = "Cancelled">Cancelled</mat-option>
+          </mat-select>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="customerId">
+        <mat-header-cell mat-sort-header fxFlex="30" *matHeaderCellDef>
+          Customer ID
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element" fxFlex="30">
+          {{ element.customerId }}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="details">
+        <mat-header-cell
+          mat-sort-header
+          *matHeaderCellDef
+          fxFlex="10"
+          fxFlexOffset = "5"
+        >
+        </mat-header-cell>
+        <mat-cell fxFlexOffset = "5" *matCellDef="let element">
+          <button (click) = "onClick(element)" mat-raised-button color="accent">Show Products</button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    </mat-table>
+    <mat-paginator
+      [pageSizeOptions]="[5, 10]"
+      (page)="fetchData()"
+      showFirstLastButtons
+    ></mat-paginator>
+  </div>
+</div>

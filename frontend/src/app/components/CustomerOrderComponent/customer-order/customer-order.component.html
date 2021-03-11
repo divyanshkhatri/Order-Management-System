@@ -1,0 +1,68 @@
+<div style="align-content: center; margin: 4vh auto; width: 90%">
+  <h1 style="text-align: center; font-family: 'lato'; margin-bottom: 6vh; font-size: 36px">
+    Order Details
+  </h1>
+  <div style = "margin-bottom: 3.5vh; text-align: right;">
+    <button mat-raised-button color="accent" (click) = 'openDialog()' >Add Orders</button>
+  </div>
+  <div class="mat-elevation-z8" style = "margin-top: 2vh;">
+    <mat-table
+      matSort
+      matSortActive="id"
+      fxLayout="column"
+      matSortDirection="desc"
+      style="border-collapse: collapse; margin-top: 2vh;"
+      [dataSource]="dataSource"
+    >
+      <ng-container matColumnDef="orderId">
+        <mat-header-cell mat-sort-header *matHeaderCellDef>
+          Order Id
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{ element.orderId }}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="customerId">
+        <mat-header-cell mat-sort-header *matHeaderCellDef>
+          Customer Id
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element" >
+          {{ element.customerId }}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="orderStatus">
+        <mat-header-cell fxFlex = "20" mat-sort-header *matHeaderCellDef>
+          Current Order Status
+        </mat-header-cell>
+        <mat-cell fxFlex = "20" *matCellDef="let element" >
+          <mat-select  matNativeControl placeholder= {{element.orderStatus}} (selectionChange) = "update(element)"  [(value)] = "element.orderStatus"  >
+            <mat-option [disabled] = "element.orderStatus == 'Confirmed' || element.orderStatus == 'NotConfirmed' ||
+            element.orderStatus == 'Shipped' || element.orderStatus == 'Completed' || element.orderStatus == 'Cancelled' " value = "NotConfirmed" >NotConfirmed</mat-option>
+            <mat-option [disabled] = "element.orderStatus != 'NotConfirmed' " value = "Confirmed" >Confirmed</mat-option>
+            <mat-option [disabled] = "element.orderStatus != 'Confirmed' " value = "Shipped">Shipped</mat-option>
+            <mat-option [disabled] = "element.orderStatus != 'Shipped' " value = "Completed">Completed</mat-option>
+            <mat-option [disabled] = "element.orderStatus != 'Confirmed' "value = "Cancelled">Cancelled</mat-option>
+          </mat-select>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="products">
+        <mat-header-cell fxFlexOffset="5" *matHeaderCellDef></mat-header-cell>
+
+          <mat-cell fxFlexOffset="5" fxFlexAlign="center" *matCellDef="let element" >
+            <button mat-raised-button color="accent" (click) = "onClick(element)">Show Products</button>
+          </mat-cell>
+
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    </mat-table>
+    <mat-paginator [pageSizeOptions]="[5, 10]" showFirstLastButtons>
+    </mat-paginator>
+  </div>
+  <h3 style = "margin-top: 3vh; float: right; color: #00c500; font-family: 'lato';">{{accepted}}</h3>
+  <h3 style = "margin-top: 3vh; float: right; color: #ff0000; font-family: 'lato';">{{rejected}}</h3>
+</div>
